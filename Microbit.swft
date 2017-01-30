@@ -1,0 +1,133 @@
+//
+//  Microbit.swift
+//
+//  Created by tamaki on 12/31/16.
+//  Copyright © 2016 tamaki. All rights reserved.
+//
+
+import Foundation
+
+protocol UUIDRepresentable: RawRepresentable {
+    associatedtype RawValue = String
+}
+
+extension UUIDRepresentable where Self.RawValue == String {
+    func uuid() -> String {
+        return self.rawValue
+    }
+}
+
+struct MicroBit {
+    enum Service: String, UUIDRepresentable {
+        case button        = "E95D9882-251D-470A-A062-FA1922DFA9A8"
+        case accelerometer = "E95D0753-251D-470A-A062-FA1922DFA9A8"
+        case ioPin         = "E95D127B-251D-470A-A062-FA1922DFA9A8"
+        case led           = "E95Dd91D-251D-470A-A062-FA1922DFA9A8"
+        case magnetometer  = "E95DF2D8-251D-470A-A062-FA1922DFA9A8"
+        case temperature   = "E95D6100-251D-470A-A062-FA1922DFA9A8"
+        case uart          = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
+        case eventService  = "E95D93AF-251D-470A-A062-FA1922DFA9A8"
+        
+        func characteristics() -> [String] {
+            switch self {
+            case .button:
+                return [
+                    Characteristic.Button.button1State.rawValue,
+                    Characteristic.Button.button2State.rawValue
+                ]
+            case .accelerometer:
+                return [
+                    Characteristic.Accelerometer.data.rawValue,
+                    Characteristic.Accelerometer.period.rawValue,
+                ]
+            case .ioPin:
+                return [
+                    Characteristic.IoPin.pinData.rawValue,
+                    Characteristic.IoPin.pinAdConfiguration.rawValue,
+                    Characteristic.IoPin.pinIoConfiguration.rawValue
+                ]
+            case .led:
+                return [
+                    Characteristic.Led.matrixState.rawValue,
+                    Characteristic.Led.text.rawValue,
+                    Characteristic.Led.scrollingDelay.rawValue
+                ]
+            case .magnetometer:
+                return [
+                    Characteristic.Magnetometer.data.rawValue,
+                    Characteristic.Magnetometer.period.rawValue,
+                    Characteristic.Magnetometer.bearing.rawValue
+                ]
+            case .temperature:
+                return [
+                    Characteristic.Temperature.temperature.rawValue
+                ]
+            case .uart:
+                return [
+                    Characteristic.Uart.rx.rawValue,
+                    Characteristic.Uart.tx.rawValue
+                ]
+            case .eventService:
+                return [
+                    Characteristic.EventService.microbitEvent.rawValue,
+                    Characteristic.EventService.microbitRequirements.rawValue,
+                    Characteristic.EventService.clientEvent.rawValue,
+                    Characteristic.EventService.clientRequirements.rawValue
+                ]
+            }
+        }
+    }
+    enum Characteristic {
+        enum Accelerometer: String, UUIDRepresentable {
+            case data   = "E95DCA4B-251D-470A-A062-FA1922DFA9A8"
+            case period = "E95DFB24-251D-470A-A062-FA1922DFA9A8"
+            
+        }
+       
+        enum Button: String, UUIDRepresentable {
+            case button1State = "E95DDA90-251D-470A-A062-FA1922DFA9A8"
+            case button2State = "E95DDA91-251D-470A-A062-FA1922DFA9A8"
+            
+        }
+        
+        enum IoPin: String, UUIDRepresentable {
+            case pinData            = "E95D8D00-251D-470A-A062-FA1922DFA9A8"
+            case pinAdConfiguration = "E95D5899-251D-470A-A062-FA1922DFA9A8"
+            case pinIoConfiguration = "E95DDA91-251D-470A-A062-FA1922DFA9A8"
+            
+        }
+        
+        enum Led: String, UUIDRepresentable {
+            case matrixState    = "E95D7b77-251D-470A-A062-FA1922DFA9A8"
+            case text           = "E95D93EE-251D-470A-A062-FA1922DFA9A8"
+            case scrollingDelay = "E95D0d2d-251D-470A-A062-FA1922DFA9A8"
+            
+        }
+        
+        enum Magnetometer: String, UUIDRepresentable {
+            case data    = "E95Dfb11-251D-470A-A062-FA1922DFA9A8"
+            case period  = "E95D386C-251D-470A-A062-FA1922DFA9A8"
+            case bearing = "E95D9715-251D-470A-A062-FA1922DFA9A8"
+            
+        }
+        
+        enum Temperature: String, UUIDRepresentable {
+            case temperature = "E95D9250-251D-470A-A062-FA1922DFA9A8"
+            
+        }
+        
+        enum Uart: String, UUIDRepresentable {
+            case rx = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
+            case tx = "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+            
+        }
+        
+        enum EventService: String, UUIDRepresentable {
+            case microbitRequirements = "E95DB84C-251D-470A-A062-FA1922DFA9A8";
+            case microbitEvent        = "E95D9775-251D-470A-A062-FA1922DFA9A8";
+            case clientRequirements   = "E95D23C4-251D-470A-A062-FA1922DFA9A8";
+            case clientEvent          = "E95D5404-251D-470A-A062-FA1922DFA9A8";
+            
+        }
+    }
+}
